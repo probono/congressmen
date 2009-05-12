@@ -11,11 +11,10 @@ module Congressmen
   IX_LEGISLATURE = 2008..2011
 
   class SessionRecord
-    attr_accessor :pages, :actors, :date, :number
+    attr_accessor :pages,  :date, :number
     
     def initialize
       @pages = []
-      @actors = []
     end
     
     def add_page(text)
@@ -27,13 +26,15 @@ module Congressmen
     
   end
   class SessionRecordPage
-    attr_accessor :record, :number, :text
+    attr_accessor :record, :number, :text, :actors
     
     def initialize(record, text)
+      @actors = []
       @record = record
       @original_text = text
       @text = clean_text(text)
       analyze
+      puts "\nActors in this page [#{actors.join(' -- ')}]\n\n"
     end
     private
     def clean_text(text)
@@ -52,6 +53,13 @@ module Congressmen
         record.number ||= data[1]
         self.number = data[2]
       end
+      text.scan(/El señor (.+?):/) do |m| 
+        self.actors << m unless self.actors.include?(m)
+      end
+      text.scan(/La señora (.+?):/) do |m| 
+        self.actors << m unless self.actors.include?(m)
+      end
+      
     end
   end
   
