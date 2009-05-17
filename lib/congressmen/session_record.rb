@@ -24,6 +24,9 @@ module Congressmen
       end
     end
     
+    def actors
+      pages.collect{|p| p.actors}
+    end
   end
   class SessionRecordPage
     attr_accessor :record, :number, :text, :actors

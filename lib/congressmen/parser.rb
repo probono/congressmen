@@ -7,7 +7,7 @@ module Congressmen
   def Congressmen.parse(file, opts = {})
     receiver = PDFScanner.new(Congressmen::SessionRecord.new)
     pdf =  PDF::Reader.file(file, receiver) 
-    receiver
+    receiver.doc
   end
   
 end
